@@ -13,8 +13,7 @@ def conv2d(x, W):
 
 
 def max_pool_2x2(x):
-    return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
-                              strides=[1, 2, 2, 1], padding='SAME')
+    return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
 
 def weight_variable(name, shape):
@@ -86,11 +85,11 @@ class Model(object):
             b5 = bias_variable("B5", [11])
 
             # Create logits
-            self.logits_1 = tf.matmul(h_fc1_drop,W1) + b1
-            self.logits_2 = tf.matmul(h_fc1_drop,W2) + b2
-            self.logits_3 = tf.matmul(h_fc1_drop,W3) + b3
-            self.logits_4 = tf.matmul(h_fc1_drop,W4) + b4
-            self.logits_5 = tf.matmul(h_fc1_drop,W5) + b5
+            self.logits_1 = tf.matmul(h_fc1_drop, W1) + b1
+            self.logits_2 = tf.matmul(h_fc1_drop, W2) + b2
+            self.logits_3 = tf.matmul(h_fc1_drop, W3) + b3
+            self.logits_4 = tf.matmul(h_fc1_drop, W4) + b4
+            self.logits_5 = tf.matmul(h_fc1_drop, W5) + b5
 
             # Define L2 Regularization, lambda == 0.001
             regularizer = (0.001*tf.nn.l2_loss(W_conv1) + 0.001*tf.nn.l2_loss(W_conv2) + \

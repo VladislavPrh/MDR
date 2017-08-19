@@ -3,6 +3,7 @@ import numpy as np
 import csv
 import os
 
+
 def read_csv(path):
     """Reads csv file and puts data into python dictionary"""
     dict_csv = {}
@@ -19,7 +20,7 @@ def read_csv(path):
                 dict_csv[row["FileName"]]["Width"].append(int(row["Width"]))
                 dict_csv[row["FileName"]]["Height"].append(int(row["Height"]))
             else:
-                dict_csv[row["FileName"]] = {"DigitLabel":[], "Left":[], "Top":[], "Width":[], "Height":[]}
+                dict_csv[row["FileName"]] = {"DigitLabel": [], "Left": [], "Top": [], "Width": [], "Height": []}
                 if int(row["DigitLabel"]) == 10:
                     dict_csv[row["FileName"]]["DigitLabel"].append(0)
                 else:
@@ -40,7 +41,7 @@ def get_list_of_image(path):
     return sorted(list_of_image_names, key=lambda x: int(x.split(".")[0]))
 
 
-def get_overall_bounding_box(dict_csv,image):
+def get_overall_bounding_box(dict_csv, image):
     """Gets location of the bounding boxes"""
     left = min(dict_csv[image]["Left"])
     if left < 0:
@@ -62,11 +63,11 @@ def get_overall_bounding_box(dict_csv,image):
     return bottom, right, left, top
 
 
-def crop_and_resize(bottom,right,left,top,image_array):
+def crop_and_resize(bottom, right, left, top, image_array):
     """Crops images based on location their bounding boxes
     and rezises the crop to 32x32 pixels """
-    crop_image = image_array[top:bottom,left:right]
-    new_image = scipy.misc.imresize(crop_image, (32,32,3))
+    crop_image = image_array[top:bottom, left:right]
+    new_image = scipy.misc.imresize(crop_image, (32, 32, 3))
     return new_image
 
 
@@ -81,14 +82,14 @@ def get_x(path):
     count = 0
     list_of_image_names = get_list_of_image(path)
     number_of_images = len(list_of_image_names)
-    x = np.empty((number_of_images,32,32,3))
+    x = np.empty((number_of_images, 32, 32, 3))
     for image_name in list_of_image_names:
         image_array = scipy.misc.imread(path + "/" + image_name, flatten=False)
         bottom, right, left, top = get_overall_bounding_box(dict_csv, image_name)
         updated_image = crop_and_resize(bottom, right, left, top, image_array)
         x[count] = updated_image
         count += 1    
-    x -= np.mean(x,dtype="float") # zero-mean 
+    x -= np.mean(x, dtype="float") # zero-mean
     return x
 
 
@@ -104,7 +105,7 @@ def get_y1(path):
         dict_csv = read_csv("data/digitStruct_train.csv")
     count = 0    
     list_of_image_names = get_list_of_image(path)
-    y = np.empty((len(dict_csv),6),dtype=int)
+    y = np.empty((len(dict_csv), 6), dtype=int)
     for image_name in list_of_image_names:
         digits = np.array(dict_csv[image_name]["DigitLabel"])
         number_of_digits = len(digits)
