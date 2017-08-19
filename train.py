@@ -40,11 +40,8 @@ def accuracy(logit_1,logit_2,logit_3,logit_4,logit_5,y_):
     return (np.mean(correct_prediction))*100.0        
 
 
-def train():
-    """Trains CNN.
-    Batch size == 64
-    Number of iterations == 150000
-    """
+def train(batch_size=64, number_of_iterations=100000, reuse=False):
+    """Trains CNN."""
     x_train, y_train, x_test, y_test = load_data()
     print "Data uploaded!"
     
@@ -54,11 +51,11 @@ def train():
         tf.global_variables_initializer().run()
 
         # Change to True, if you want to restore the model with 82% test accuracy
-        if False:
+        if reuse:
             model.saver.restore(session, "./try2.ckpt")
                 
-        for i in range(150000):
-            indices= np.random.choice(len(y_train),64)
+        for i in range(number_of_iterations):
+            indices= np.random.choice(len(y_train), batch_size)
             bat_x = x_train[indices]
             bat_y = y_train[indices]
             _, l= session.run([model.optimizer,model.loss], feed_dict={model.x: bat_x, model.y: bat_y,
