@@ -1,5 +1,5 @@
-# Multi-task learning with CNN
-This project is an example of the multi-task learning. More concrete I have worked on recognition arbitrary multi-digit numbers obtained from The Street View House Numbers (SVHN) Dataset.
+# CNN for multi-digit recognition
+This project refers to the image recognition with convolutional neural network. More specifically I have worked on recognition arbitrary multi-digit numbers obtained from The Street View House Numbers (SVHN) Dataset.
 ### How to run
 1. Downoald and extract data:
 ```
